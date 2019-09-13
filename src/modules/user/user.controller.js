@@ -1,5 +1,11 @@
 const Bcrypt = require("bcryptjs");
 const User = require('./user.model').userModel;
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path")
+
+
+
 module.exports = {
     list: (req, res) => {
         User.find({}, { __v: 0 }, (err, users) => {
@@ -43,7 +49,7 @@ module.exports = {
         User.findOneAndUpdate({ _id: req.params.id },
             req.body,
             { new: true },
-            (err, ) => {
+            (err, user) => {
                 res.json({
                     status: "success",
                     response: user
@@ -97,6 +103,97 @@ module.exports = {
             }
 
         });
+
+    },
+    // 
+    attachCni: (req, res) => {
+        upload = multer({ dest: "dist/attachments" }).single('cni')
+        upload(req, res, function (error) {
+            if (error || !req.file) {
+                return res.status(500).json({
+                    status: "error",
+                    response: error
+                })
+            } else {
+                oldPath = req.file.path;
+                extension = path.extname(req.file.originalname);
+                newPath = oldPath + extension;
+                fs.rename(oldPath, newPath, err => {
+                    const nameInDir = req.file.filename + extension;
+                    User.findByIdAndUpdate({ _id: req.params.userId }, { cni: nameInDir }, (error, user) => {
+                        return res.json({
+                            status: "File uploaded",
+                            response: user
+                        });
+                    })
+                })
+
+
+            }
+        });
+    },
+    attachFacture: (req, res) => {
+        upload = multer({ dest: "dist/attachments" }).single('facture')
+        upload(req, res, function (error) {
+            if (error || !req.file) {
+                return res.status(500).json({
+                    status: "error",
+                    response: error
+                })
+            } else {
+                oldPath = req.file.path;
+                extension = path.extname(req.file.originalname);
+                newPath = oldPath + extension;
+                fs.rename(oldPath, newPath, err => {
+                    const nameInDir = req.file.filename + extension;
+
+                    User.findByIdAndUpdate({ _id: req.params.userId }, { facture: nameInDir }, (error, user) => {
+                        return res.json({
+                            status: "File uploaded",
+                            response: user
+                        });
+                    })
+                })
+            }
+        });
+    },
+    attachPhoto: (req, res) => {
+        upload = multer({ dest: "dist/attachments" }).single('photo')
+        upload(req, res, function (error) {
+            if (error || !req.file) {
+                return res.status(500).json({
+                    status: "error",
+                    response: error
+                })
+            } else {
+                oldPath = req.file.path;
+                extension = path.extname(req.file.originalname);
+                newPath = oldPath + extension;
+                fs.rename(oldPath, newPath, err => {
+                    const nameInDir = req.file.filename + extension;
+
+                    User.findByIdAndUpdate({ _id: req.params.userId }, { photo: nameInDir }, (error, user) => {
+                        return res.json({
+                            status: "File uploaded",
+                            response: user
+                        });
+                    })
+                })
+
+
+            }
+        });
+    },
+    ouvrirCompte: (req, res) => {
+        User.findOneAndUpdate({ _id: req.params.userId },
+            req.body,
+            // { new: true },
+            (err, user) => {
+                res.json({
+                    status: "success",
+                    response: user
+                })
+            })
 
     }
 

@@ -14,6 +14,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Create link to Angular build directory
+var distDir = __dirname + "/../dist/";
+console.log(distDir);
+app.use(express.static(distDir));
+
 app.get('/', (req, res) => {
 
     res.status(200).json({
