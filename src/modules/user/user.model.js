@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
     cni: { type: String, required: false },
     facture: { type: String, required: false },
     convention: { type: String, required: false },
+    demandeOuverture: { type: Boolean,required:false},
     etatDossier: { type: Boolean, required: false },
     etatPhoto: { type: Boolean, required: false },
     etatFacture: { type: Boolean, required: false },

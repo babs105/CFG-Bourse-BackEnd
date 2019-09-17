@@ -36,7 +36,7 @@ module.exports = {
         });
     },
     read: (req, res) => {
-        User.findOne({ _id: req.params.id }, { __v: 0 }, (err, user) => {
+        User.findOne({ _id: req.params.userId }, { __v: 0 }, (err, user) => {
             res.json({
                 status: "success",
                 response: user
@@ -185,15 +185,58 @@ module.exports = {
         });
     },
     ouvrirCompte: (req, res) => {
+        req.body.demandeOuverture = true;
         User.findOneAndUpdate({ _id: req.params.userId },
             req.body,
-            // { new: true },
+            { new: true },
             (err, user) => {
                 res.json({
                     status: "success",
                     response: user
                 })
             })
+
+    },
+    attachConvention: (req, res) => {
+        upload = multer({ dest: "dist/attachments" }).single('convention')
+        upload(req, res, function (error) {
+            if (error || !req.file) {
+                return res.status(500).json({
+                    status: "error",
+                    response: error
+                })
+            } else {
+                oldPath = req.file.path;
+                extension = path.extname(req.file.originalname);
+                newPath = oldPath + extension;
+                fs.rename(oldPath, newPath, err => {
+                    const nameInDir = req.file.filename + extension;
+
+                    User.findByIdAndUpdate({ _id: req.params.userId }, { convention: nameInDir }, (error, user) => {
+                        return res.json({
+                            status: "File uploaded",
+                            response: user
+                        });
+                    })
+                })
+
+
+            }
+        });
+    },
+    listDemande: (req, res) => {
+        User.find({ demandeOuverture: true }, (err, users) => {
+            if (err) {
+                res.json({
+                    status: "error",
+                    response: err
+                });
+            }
+            res.json({
+                status: "success",
+                response: users
+            });
+        });
 
     }
 
