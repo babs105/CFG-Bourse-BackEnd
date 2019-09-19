@@ -17,6 +17,7 @@ module.exports = {
         });
     },
     register: (req, res) => {
+        // req.body.admin = true
         req.body.password = Bcrypt.hashSync(req.body.password, 10);
         let user = new User(req.body);
 
@@ -224,20 +225,19 @@ module.exports = {
             }
         });
     },
-    listDemande: (req, res) => {
-        User.find({ demandeOuverture: true }, (err, users) => {
-            if (err) {
+    validerDoc: (req, res) => {
+        if (((req.body.photoArevoir === false) && (req.body.cniArevoir === false) && (req.body.factureArevoir === false))) {
+            req.body.etatDossier = true
+        }
+        User.findOneAndUpdate({ _id: req.params.userId },
+            req.body,
+            { new: true },
+            (err, user) => {
                 res.json({
-                    status: "error",
-                    response: err
-                });
-            }
-            res.json({
-                status: "success",
-                response: users
-            });
-        });
+                    status: "success",
+                    response: user
+                })
+            })
 
     }
-
 }  

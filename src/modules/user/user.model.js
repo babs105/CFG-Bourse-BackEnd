@@ -21,12 +21,14 @@ const userSchema = new mongoose.Schema({
     cni: { type: String, required: false },
     facture: { type: String, required: false },
     convention: { type: String, required: false },
-    demandeOuverture: { type: Boolean,required:false},
+    demandeOuverture: { type: Boolean, required: false },
     etatDossier: { type: Boolean, required: false },
-    etatPhoto: { type: Boolean, required: false },
-    etatFacture: { type: Boolean, required: false },
-    etatCni: { type: Boolean, required: false },
-    etatConvention: { type: Boolean, required: false }
+    photoArevoir: { type: Boolean, required: false },
+    factureArevoir: { type: Boolean, required: false },
+    cniArevoir: { type: Boolean, required: false },
+    commentaire: { type: String, required: false },
+    etatConvention: { type: Boolean, required: false },
+    admin: { type: Boolean, required: false }
 
 });
 module.exports.userModel = mongoose.model("User", userSchema);
