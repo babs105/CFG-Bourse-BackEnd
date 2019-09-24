@@ -15,7 +15,14 @@ router.put('/:userId/attach-cni', Ctrl.attachCni)
 router.put('/:userId/attach-facture', Ctrl.attachFacture)
 router.put('/:userId/attach-convention', Ctrl.attachConvention)
 router.put('/:userId/ouvrir-compte', Ctrl.ouvrirCompte);
-router.put('/:userId/valider-doc', Ctrl.validerDoc)
-
-
+router.put('/:userId/valider-doc', Ctrl.validerDoc);
 module.exports.route = router;
+
+
+
+
+
+
+
+
+
