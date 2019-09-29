@@ -227,11 +227,12 @@ module.exports = {
     },
     validerDoc: (req, res) => {
         if (((req.body.photoArevoir === false) && (req.body.cniArevoir === false) && (req.body.factureArevoir === false))) {
-            req.body.etatDossier = true
+            req.body.etatDossier = true;
+            req.body.demandeOuverture = false;
         }
         User.findOneAndUpdate({ _id: req.params.userId },
             req.body,
-            { new: true },
+            { new:true },
             (err, user) => {
                 res.json({
                     status: "success",

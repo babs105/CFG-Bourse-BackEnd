@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
     facture: { type: String, required: false },
     convention: { type: String, required: false },
     demandeOuverture: { type: Boolean, required: false },
+    compteCreate: { type: Boolean, required: false },
     etatDossier: { type: Boolean, required: false },
     photoArevoir: { type: Boolean, required: false },
     factureArevoir: { type: Boolean, required: false },

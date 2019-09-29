@@ -27,8 +27,12 @@ app.get('/', (req, res) => {
 
 });
 
-// monter route tache
-app.use('/user', require("./modules/user/user.route").route);
+// monter routes
+
+app.use('/user', require("./modules/user/user.route").routeUser);
+app.use('/compte', require("./modules/compte/compte.route").routeCompte);
+app.use('/profilage', require("./modules/profilage/profilage.route").routeProfilage);
+
 
 app.use(function (req, res) {
     res.status(404).send("OUPS PAGE INTROUVABLE");
